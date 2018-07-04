@@ -1,9 +1,11 @@
 package io.github.amaan75.courseApiApp.course
 
+import io.github.amaan75.courseApiApp.topic.Topic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import javax.persistence.Entity
 import javax.persistence.Id
+import javax.persistence.ManyToOne
 
 /**
  * This is a data class to hold a single course
@@ -12,7 +14,7 @@ import javax.persistence.Id
  * @property description :String description of a particular {@link Course}
  */
 @Entity
-data class Course(@Id val id: String, val name: String, val description: String)
+data class Course(@Id val id: String, val name: String, val description: String, @ManyToOne val topic: Topic)
 
 
 /**
@@ -43,8 +45,8 @@ class CourseController(@Autowired val courseService: CourseService) {
      * It adds a course to the list of courses
      * @param course : this param is the id of the course that has to be added
      */
-    @PostMapping("/courses")
-    fun addCourse(@RequestBody course:Course) = courseService.addCourse(course)
+    @PostMapping("/topics/{topicId}/courses")
+    fun addCourse(@RequestBody course: Course) = courseService.addCourse(course)
 
 
     /**
@@ -52,7 +54,7 @@ class CourseController(@Autowired val courseService: CourseService) {
      * @param id This parameter takes in the id of the course to be updated
      * @param course The new course object which will be added onto the list
      */
-    @PutMapping("/courses/{id}")
+    @PutMapping("/topics/{topicId}/courses/{id}")
     fun updateCourse(@PathVariable id: String, @RequestBody course: Course) =
             courseService.updateCourse(id, course)
 
@@ -61,7 +63,7 @@ class CourseController(@Autowired val courseService: CourseService) {
      * This method deletes a course from then list of courses based on the id
      * @param id The course to be deleted
      */
-    @DeleteMapping("/courses/{id}")
+    @DeleteMapping("/topics/{topicId}courses/{id}")
     fun deleteCourse(@PathVariable id: String) = courseService.deleteCourse(id)
 
 }

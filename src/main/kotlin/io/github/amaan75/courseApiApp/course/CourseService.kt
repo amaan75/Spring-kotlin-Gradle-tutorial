@@ -13,7 +13,7 @@ class CourseService(@Autowired val courseRepository: CourseRepository) {
     /**
      * @return fetches the courses from the database and then returns a list of all of them
      */
-    fun getAllCourses(id: String) = courseRepository.findAll().toMutableList()
+    fun getAllCourses(topicId: String) = courseRepository.findByTopicId(topicId).toMutableList()
 
     /**
      * @param id for the course you want to fetch.
